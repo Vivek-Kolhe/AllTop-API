@@ -10,10 +10,11 @@ CORS(app)
 def home():
     return "API UP!"
 
-@app.route('/home')
+@app.route('/news')
 def news():
     if request.method == 'GET':
-        return jsonify(get_data())
+        category = request.args.get("category")
+        return jsonify(get_data(category))
 
 if __name__ == '__main__':
     app.debug = True
