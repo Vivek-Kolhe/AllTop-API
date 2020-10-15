@@ -1,12 +1,15 @@
 import requests
 from bs4 import BeautifulSoup
 
-def get_data():
-    url = "https://alltop.com/"
+def get_data(category):
+    if category == "home":
+        url = "https://alltop.com/"
+    else:
+        url = f"https://alltop.com/{category}"
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
     news_containers = soup.findAll(class_ = "col-xs-12 col-md-4")
-    data = []
+    jsonData = {"category" : category, "data" : []}
 
     for i in range(len(news_containers)):
         news_site_tag = news_containers[i].find("a", style = "color: #ea2f10; font-size: 17px;")        # for news source sites
@@ -21,7 +24,9 @@ def get_data():
             text = news_items[j]["data-content"].split("<br>")[-1]
             y = text.find("<div")
             content = text[:y]
-            temp_data.append({"content" : content, "title" : news_title, "readMoreUrl" : url})
+            if content == "":
+                content = None
+            temp_data.append({"content" : content, "title" : news_title, "url" : url})
         
-        data.append({"newsSite" : news_site, "newsSiteUrl" : news_url, "data" : temp_data})
-    return data
+        jsonData["data"].append({"newsFrom" : news_site, "newsUrl" : news_url, "newsData" : temp_data})
+    return jsonData
