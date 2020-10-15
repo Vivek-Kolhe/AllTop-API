@@ -18,7 +18,10 @@ def get_data():
         for j in range(len(news_items)):
             news_title = news_items[j].text
             url = news_items[j]["href"]
-            temp_data.append({"title" : news_title, "url" : url})
+            text = news_items[j]["data-content"].split("<br>")[-1]
+            y = text.find("<div")
+            content = text[:y]
+            temp_data.append({"content" : content, "title" : news_title, "readMoreUrl" : url})
         
         data.append({"newsSite" : news_site, "newsSiteUrl" : news_url, "data" : temp_data})
     return data
