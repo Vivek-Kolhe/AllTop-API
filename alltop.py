@@ -29,6 +29,7 @@ def get_data(category):
             temp_data.append({"content" : content, "title" : news_title, "url" : url})
         
         newsDictionary["data"].append({"newsFrom" : news_site, "newsUrl" : news_url, "newsData" : temp_data})
+    newsDictionary["count"] = len(newsDictionary["data"])
     return newsDictionary
 
 def viral():
