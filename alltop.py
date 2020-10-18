@@ -1,15 +1,15 @@
 import requests
 from bs4 import BeautifulSoup
 
-def get_data(category):
-    if category == "home":
+def get_data(topic):
+    if topic == "home":
         url = "https://alltop.com/"
     else:
-        url = f"https://alltop.com/{category}"
+        url = f"https://alltop.com/{topic}"
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
     news_containers = soup.findAll(class_ = "col-xs-12 col-md-4")
-    newsDictionary = {"category" : category, "data" : []}
+    newsDictionary = {"data" : []}
 
     for i in range(len(news_containers)):
         news_site_tag = news_containers[i].find("a", style = "color: #ea2f10; font-size: 17px;")        # for news source sites
@@ -30,6 +30,7 @@ def get_data(category):
         
         newsDictionary["data"].append({"newsFrom" : news_site, "newsUrl" : news_url, "newsData" : temp_data})
     newsDictionary["count"] = len(newsDictionary["data"])
+    newsDictionary["category"] = topic
     return newsDictionary
 
 def viral():
