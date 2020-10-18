@@ -8,13 +8,14 @@ CORS(app)
 
 @app.route('/')
 def home():
-    return "API UP!"
+    jsonData = {"APIStatus" : "UP!", "codedBy" : "Made with ❤️ by Vivek.", "sourceCode" : "https://github.com/Vivek-Kolhe/AllTop-API", "reachMeAt" : "https://telegram.dog/pookie_0_0"}
+    return jsonify(jsonData)
 
 @app.route('/news')
 def news():
     if request.method == 'GET':
-        category = request.args.get("category")
-        return jsonify(get_data(category))
+        topic = request.args.get("topic")
+        return jsonify(get_data(topic))
 
 @app.route('/viral')
 def viral_articles():
@@ -23,4 +24,4 @@ def viral_articles():
 
 if __name__ == '__main__':
     app.debug = True
-    app.run()
+    app.run(host='0.0.0.0',port=5000,use_reloader=True)
