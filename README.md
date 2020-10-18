@@ -117,19 +117,19 @@ To fetch viral articles from the site, make a get request to\
   }
   ```
   
-  ## Setup
-  Install the above listed dependencies and start the server by running **app.py**.
+## Setup
+Install the above listed dependencies and start the server by running **app.py**.
   
-  ## Deploying on Heroku
-  - Make sure you've installed HerokuCLI and cloned the repository.
-  - Create an app from heroku dashboard and run the following commands one by one.
-    ```
-    $ heroku login
-    $ git init
-    $ heroku git:remote -a <your_appname>
-    $ git add .
-    $ git commit -am "deploying"
-    $ git push heroku master
-    ```
+## Deploying on Heroku
+- Make sure you've installed HerokuCLI and cloned the repository.
+- Create an app from heroku dashboard and run the following commands one by one.
+  ```
+  $ heroku login
+  $ git init
+  $ heroku git:remote -a <your_appname>
+  $ git add .
+  $ git commit -am "deploying"
+  $ git push heroku master
+  ```
 
 ***Note:*** *Before running second command make sure you're in the directory where all the repo files are present.*
