@@ -8,7 +8,11 @@ def get_data(topic):
         url = f"https://alltop.com/{topic}"
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
-    news_containers = soup.findAll(class_ = "col-xs-12 col-md-4")
+    try:
+        news_containers = soup.findAll(class_ = "col-xs-12 col-md-4")
+    except Exception as e:
+        return {"error" : str(e)}
+        
     newsDictionary = {"data" : []}
 
     for i in range(len(news_containers)):
@@ -34,22 +38,26 @@ def get_data(topic):
     return newsDictionary
 
 def viral():
-	data = []
-	for page in range(1, 4):                                                                            # for fetching articles from only 3 pages
-		url = f"https://alltop.com/viral/page/{page}"
-		response = requests.get(url)
-		soup = BeautifulSoup(response.text, "html.parser")
-		articles = soup.findAll(class_ = "row-fluid row-featured")
-		for i in range(len(articles)):
-			title = articles[i].find(class_ = "post-title").text
-			posted = articles[i].find(class_ = "posted-by").text
-			posted = posted.split(" / ")
-			posted_by, posted_on = posted[0][10:], posted[-1]
-			thumbnail = articles[i].find("img")["src"]
-			content = articles[i].find("p").text
-			readmore = articles[i].find(class_ = "read-more")["href"]
+    try:
+        data = []
+        for page in range(1, 4):                                                                            # for fetching articles from only 3 pages
+            url = f"https://alltop.com/viral/page/{page}"
+            response = requests.get(url)
+            soup = BeautifulSoup(response.text, "html.parser")
+            articles = soup.findAll(class_ = "row-fluid row-featured")
 
-			data.append({"content" : content, "title" : title, "postedBy" : posted_by, "postedOn" : posted_on, "thumbnail" : thumbnail, "readMoreUrl" : readmore})
+            for i in range(len(articles)):
+                title = articles[i].find(class_ = "post-title").text
+                posted = articles[i].find(class_ = "posted-by").text
+                posted = posted.split(" / ")
+                posted_by, posted_on = posted[0][10:], posted[-1]
+                thumbnail = articles[i].find("img")["src"]
+                content = articles[i].find("p").text
+                readmore = articles[i].find(class_ = "read-more")["href"]
 
-	articleDictionary = {"category" : "viral", "articleCount" : len(data), "data" : data}
-	return articleDictionary
+                data.append({"content" : content, "title" : title, "postedBy" : posted_by, "postedOn" : posted_on, "thumbnail" : thumbnail, "readMoreUrl" : readmore})
+
+        articleDictionary = {"category" : "viral", "articleCount" : len(data), "data" : data}
+        return articleDictionary
+    except Exception as e:
+        return {"error" : str(e)}
